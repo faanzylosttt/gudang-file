@@ -1,373 +1,339 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Gudang File Premium</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0a0a;
-            overflow-x: hidden;
-        }
-
-        /* Particle Background */
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        /* Glass Effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Animated Icons */
-        /* Putih */
-.icon-3d {
-    font-size: 3rem;
-    color: white;           /* warna teks putih */
-    background: none;       /* hapus gradien */
-    -webkit-background-clip: unset;
-    -webkit-text-fill-color: unset;
-    animation: float 3s ease-in-out infinite;
-}
-
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        /* Glow Effect */
-        .glow {
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 20px -10px #667eea; }
-            to { box-shadow: 0 0 20px 10px #667eea; }
-        }
-
-        /* Smooth Transitions */
-        .transition-all {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Gradient Text */
-        /* Putih */
-.gradient-text {
-    color: white;
-    background: none;
-    -webkit-background-clip: unset;
-    -webkit-text-fill-color: unset;
-    background-clip: unset;
-}
-
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* File Card Hover */
-        .file-card {
-            transition: all 0.3s ease;
-            transform: perspective(1000px) rotateX(0deg);
-        }
-
-        .file-card:hover {
-            transform: perspective(1000px) rotateX(5deg) translateY(-10px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Modal Animation */
-        .modal-enter {
-            animation: modalEnter 0.3s ease-out;
-        }
-
-        @keyframes modalEnter {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-    </style>
-</head>
-<body class="min-h-screen relative">
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vault • Super Keren</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#0c0c0c;
+      --neon:#00f5ff;
+      --pink:#ff006e;
+      --purple:#8b5cf6;
+      --radius:24px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg);color:#fff;min-height:100vh}
+    #particles-js{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2}
+    header{text-align:center;padding:60px 20px 40px}
+    header h1{font-size:48px;font-weight:900;background:linear-gradient(90deg,var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     
-    <div class="relative z-10 min-h-screen p-4 md:p-8">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-5xl md:text-6xl font-bold mb-4">
-                <i class="fas fa-cloud-download-alt gradient-text"></i>
-                <br>
-                <span class="gradient-text">Gudang File</span>
-                <span class="text-white">Premium</span>
-            </h1>
-            <p class="text-gray-400 text-lg">Koleksi file premium dengan akses eksklusif</p>
-        </div>
+    /* Filter Buttons */
+    .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:30px;padding:0 20px}
+    .btn-filter{
+      position:relative;
+      background:transparent;
+      border:2px solid rgba(255,255,255,.2);
+      color:#fff;
+      padding:12px 28px;
+      border-radius:999px;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .4s;
+      overflow:hidden;
+    }
+    .btn-filter i{margin-right:8px}
+    .btn-filter::before{
+      content:'';
+      position:absolute;
+      top:0;left:-100%;
+      width:100%;height:100%;
+      background:linear-gradient(90deg,transparent,var(--neon));
+      transition:left .4s;
+      z-index:-1;
+    }
+    .btn-filter.active,
+    .btn-filter:hover{color:#000;border-color:var(--neon)}
+    .btn-filter.active::before,
+    .btn-filter:hover::before{left:0}
 
-        <!-- Filter Buttons -->
-        <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <button onclick="filterCategory('all')" class="filter-btn glass px-6 py-3 rounded-full transition-all hover:scale-105 hover:bg-purple-600/20">
-                <i class="fas fa-th-large mr-2"></i>Semua
-            </button>
-            <button onclick="filterCategory('metahan')" class="filter-btn glass px-6 py-3 rounded-full transition-all hover:scale-105 hover:bg-blue-600/20">
-                <i class="fas fa-image mr-2"></i>Meta PNG
-            </button>
-            <button onclick="filterCategory('bot-tele')" class="filter-btn glass px-6 py-3 rounded-full transition-all hover:scale-105 hover:bg-green-600/20">
-                <i class="fab fa-telegram mr-2"></i>Bot Tele
-            </button>
-            <button onclick="filterCategory('code-web')" class="filter-btn glass px-6 py-3 rounded-full transition-all hover:scale-105 hover:bg-yellow-600/20">
-                <i class="fas fa-code mr-2"></i>Code Web
-            </button>
-            <button onclick="filterCategory('bot-wa')" class="filter-btn glass px-6 py-3 rounded-full transition-all hover:scale-105 hover:bg-red-600/20">
-                <i class="fab fa-whatsapp mr-2"></i>Bot WA
-            </button>
-        </div>
+    /* Search */
+    #search{
+      display:block;
+      width:100%;
+      max-width:340px;
+      margin:0 auto 40px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:var(--radius);
+      padding:14px 22px;
+      color:#fff;
+      outline:none;
+      transition:border-color .3s;
+    }
+    #search:focus{border-color:var(--neon)}
 
-        <!-- Search Bar -->
-        <div class="max-w-md mx-auto mb-8">
-            <div class="glass p-1 rounded-full">
-                <input id="search" type="text" placeholder="🔍 Cari file..." 
-                       class="w-full px-6 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none">
-            </div>
-        </div>
+    /* Cards Grid */
+    #file-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+      gap:32px;
+      padding:0 20px 60px;
+      max-width:1400px;
+      margin:auto;
+    }
+    .card{
+      position:relative;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      padding:40px 30px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      transition:transform .4s,box-shadow .4s;
+      transform-style:preserve-3d;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform:rotateY(8deg) rotateX(8deg) translateY(-10px);
+      box-shadow:0 0 30px var(--neon);
+    }
+    .card .icon-3d{
+      font-size:70px;
+      margin-bottom:20px;
+      color:var(--neon);
+      filter:drop-shadow(0 0 15px var(--neon));
+      animation:float 2s ease-in-out infinite;
+    }
+    @keyframes float{0%{transform:translateY(0)scale(1)}50%{transform:translateY(-8px)scale(1.1)}100%{transform:translateY(0)scale(1)}}
+    .card h3{font-size:20px;font-weight:700;margin-bottom:6px}
+    .card p{font-size:15px;color:#bbb;margin-bottom:24px}
 
-        <!-- File Grid -->
-        <div id="file-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Loading State -->
-            <div class="col-span-full text-center">
-                <div class="loading"></div>
-                <p class="mt-2 text-gray-400">Memuat file...</p>
-            </div>
-        </div>
-    </div>
+    /* 3D Button */
+    .btn-3d{
+      position:relative;
+      background:linear-gradient(135deg,var(--neon),var(--pink));
+      border:none;
+      color:#000;
+      font-weight:700;
+      font-size:16px;
+      padding:14px 36px;
+      border-radius:999px;
+      box-shadow:0 4px 15px rgba(0,245,255,.4);
+      cursor:pointer;
+      transition:all .3s;
+      overflow:hidden;
+    }
+    .btn-3d:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,245,255,.6)}
+    .btn-3d:active{transform:translateY(1px);box-shadow:0 4px 10px rgba(0,245,255,.3)}
+    .btn-3d::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.6);transform:translate(-50%,-50%);transition:width .6s,height .6s;opacity:0}
+    .btn-3d:active::after{width:300px;height:300px;opacity:0}
 
-    <!-- Download Modal -->
-    <div id="download-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="glass max-w-md w-full p-8 modal-enter">
-            <div class="text-center">
-                <i class="fas fa-lock text-4xl text-purple-400 mb-4"></i>
-                <h2 class="text-2xl font-bold mb-4">🔓 Unlock Premium Access</h2>
-                <p class="text-gray-300 mb-6">Selesaikan semua tugas untuk download:</p>
-                
-                <div id="tasks" class="space-y-4">
-                    <a href="https://www.instagram.com/faa_nzy?igsh=OGR3OGZoMzl1YTF5" target="_blank" 
-                       class="task-btn glass p-4 rounded-lg flex items-center justify-between transition-all hover:bg-pink-600/20">
-                        <span><i class="fab fa-instagram mr-2"></i>Follow Instagram</span>
-                        <i class="fas fa-check-circle opacity-0"></i>
-                    </a>
-                    <a href="https://youtube.com/@faanzygx?si=bvY-pKz70qMYzj9M" target="_blank"
-                       class="task-btn glass p-4 rounded-lg flex items-center justify-between transition-all hover:bg-red-600/20">
-                        <span><i class="fab fa-youtube mr-2"></i>Subscribe YouTube</span>
-                        <i class="fas fa-check-circle opacity-0"></i>
-                    </a>
-                    <a href="https://whatsapp.com/channel/0029Vb3E62T90x311PjuYI3Y" target="_blank"
-                       class="task-btn glass p-4 rounded-lg flex items-center justify-between transition-all hover:bg-green-600/20">
-                        <span><i class="fab fa-whatsapp mr-2"></i>Join WhatsApp</span>
-                        <i class="fas fa-check-circle opacity-0"></i>
-                    </a>
-                </div>
+    /* Gate Modal */
+    .gate{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.9);
+      display:none;
+      place-items:center;
+      z-index:10;
+    }
+    .gate-box{
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--neon);
+      border-radius:var(--radius);
+      padding:50px 40px;
+      width:100%;
+      max-width:380px;
+      text-align:center;
+      animation:slideIn .5s;
+    }
+    @keyframes slideIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+    .gate-box h2{margin-bottom:12px;font-size:28px}
+    .gate-box p{margin-bottom:30px;font-size:16px;color:#aaa}
+    .task{
+      display:block;
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:var(--radius);
+      padding:16px 20px;
+      margin-bottom:12px;
+      color:#fff;
+      text-decoration:none;
+      font-size:16px;
+      transition:all .3s;
+    }
+    .task:hover{border-color:var(--neon);color:var(--neon)}
+    .task.done{border-color:var(--neon);background:var(--neon);color:#000}
+    .gate-ready{display:none;margin-top:20px}
 
-                <button id="download-btn" class="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3 rounded-full font-bold hidden transition-all hover:scale-105 glow">
-                    <i class="fas fa-download mr-2"></i>Download Sekarang
-                </button>
-            </div>
-        </div>
-    </div>
+    /* Sound Toggle */
+    #sound-toggle{
+      position:fixed;
+      top:20px;right:20px;
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.2);
+      color:#fff;
+      padding:12px 16px;
+      border-radius:50%;
+      cursor:pointer;
+      z-index:100;
+      transition:background .3s;
+    }
+    #sound-toggle:hover{background:rgba(255,255,255,.2)}
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script>
-        // Konfigurasi
-        const repo = 'faanzylosttt/gudang-file'; // Ganti dengan username/repo kamu
-        const baseUrl = `https://raw.githubusercontent.com/${repo}/main/files`;
-        let allFiles = [];
-        let currentFile = null;
+    @media(max-width:600px){
+      #file-list{grid-template-columns:1fr}
+      header h1{font-size:36px}
+    }
+  </style>
+</head>
+<body>
 
-        // Inisialisasi Particle Background
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 50 },
-                color: { value: '#667eea' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.5 },
-                size: { value: 3 },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#667eea',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: { enable: true, mode: 'repulse' },
-                    onclick: { enable: true, mode: 'push' }
-                }
-            }
-        });
+<!-- Background Particle -->
+<div id="particles-js"></div>
 
-        // Ambil semua file
-        async function fetchAllFiles() {
-            const categories = {
-                'metahan': 'fas fa-image',
-                'bot-tele': 'fab fa-telegram',
-                'code-web': 'fas fa-code',
-                'bot-wa': 'fab fa-whatsapp'
-            };
-            
-            for (const [category, icon] of Object.entries(categories)) {
-                try {
-                    const res = await fetch(`https://api.github.com/repos/${repo}/contents/files/${category}`);
-                    const data = await res.json();
-                    if (Array.isArray(data)) {
-                        data.forEach(f => {
-                            f.category = category;
-                            f.icon = icon;
-                            f.path = `${category}/${f.name}`;
-                        });
-                        allFiles = [...allFiles, ...data];
-                    }
-                } catch (e) {
-                    console.warn(`Gagal load ${category}`);
-                }
-            }
-            renderFiles(allFiles);
-        }
+<!-- Sound Toggle -->
+<button id="sound-toggle" title="Toggle SFX"><i class="fas fa-volume-up"></i></button>
 
-        // Render file dengan animasi
-        function renderFiles(files) {
-            const container = document.getElementById('file-list');
-            container.innerHTML = '';
+<header>
+  <h1>VAULT<span>•</span>SUPER</h1>
+</header>
 
-            files.forEach((file, index) => {
-                const ext = file.name.split('.').pop().toLowerCase();
-                const div = document.createElement('div');
-                div.className = 'file-card glass p-6 transition-all';
-                div.style.animationDelay = `${index * 0.1}s`;
-                
-                div.innerHTML = `
-                    <div class="text-center">
-                        <i class="${file.icon} icon-3d mb-4"></i>
-                        <h3 class="font-bold text-lg mb-2 truncate">${file.name}</h3>
-                        <p class="text-gray-400 text-sm mb-4">${(file.size / 1024).toFixed(1)} KB</p>
-                        <button onclick="openDownloadGate('${file.path}', '${file.name}')" 
-                                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-2 rounded-full transition-all hover:scale-105">
-                            <i class="fas fa-download mr-2"></i>Download
-                        </button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
+<!-- Filter Buttons with Icons -->
+<nav class="filters">
+  <button onclick="filterCat('all')" class="btn-filter active"><i class="fas fa-th-large"></i> All</button>
+  <button onclick="filterCat('metahan')" class="btn-filter"><i class="fas fa-image"></i> Meta PNG</button>
+  <button onclick="filterCat('bot-tele')" class="btn-filter"><i class="fab fa-telegram-plane"></i> Bot Tele</button>
+  <button onclick="filterCat('code-web')" class="btn-filter"><i class="fas fa-code"></i> Code Web</button>
+  <button onclick="filterCat('bot-wa')" class="btn-filter"><i class="fab fa-whatsapp"></i> Bot WA</button>
+</nav>
 
-        // Filter kategori dengan animasi
-        function filterCategory(category) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('ring-2', 'ring-white');
-            });
-            event.target.classList.add('ring-2', 'ring-white');
+<!-- Search -->
+<input id="search" type="text" placeholder="Search file…">
 
-            let filtered = category === 'all' ? allFiles : allFiles.filter(f => f.category === category);
-            
-            // Fade out effect
-            document.getElementById('file-list').style.opacity = '0';
-            setTimeout(() => {
-                renderFiles(filtered);
-                document.getElementById('file-list').style.opacity = '1';
-            }, 300);
-        }
+<!-- Cards Grid -->
+<section id="file-list"></section>
 
-        // Pencarian real-time
-        document.getElementById('search').addEventListener('input', (e) => {
-            const keyword = e.target.value.toLowerCase();
-            const filtered = allFiles.filter(f => f.name.toLowerCase().includes(keyword));
-            renderFiles(filtered);
-        });
+<!-- Gate Modal -->
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h2><i class="fas fa-unlock-alt"></i> Unlock File</h2>
+    <p>Complete the actions below to download:</p>
+    <a href="https://www.instagram.com/faa_nzy?igsh=OGR3OGZoMzl1YTF5"  target="_blank" class="task ig"><i class="fab fa-instagram"></i> Follow Instagram</a>
+    <a href="https://youtube.com/@faanzygx?si=bvY-pKz70qMYzj9M"   target="_blank" class="task yt"><i class="fab fa-youtube"></i> Subscribe YouTube</a>
+    <a href="https://whatsapp.com/channel/0029Vb3E62T90x311PjuYI3Y"          target="_blank" class="task wa"><i class="fab fa-whatsapp"></i> Join WhatsApp</a>
+    <button id="dl-ready" class="btn-3d gate-ready"><i class="fas fa-download"></i> Download Now</button>
+  </div>
+</div>
 
-        // Download Gate
-        function openDownloadGate(filePath, fileName) {
-            currentFile = { path: filePath, name: fileName };
-            document.getElementById('download-modal').classList.remove('hidden');
-            
-            // Reset tasks
-            document.querySelectorAll('.task-btn').forEach(btn => {
-                btn.classList.remove('opacity-50', 'pointer-events-none');
-                btn.querySelector('.fa-check-circle').classList.add('opacity-0');
-            });
-            document.getElementById('download-btn').classList.add('hidden');
-        }
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+/* CONFIG */
+const repo = 'fanzylosttt/gudang-file'; // <-- GANTI DENGAN USERNAME/REPO KAMU
+const base = `https://raw.githubusercontent.com/${repo}/main/files`;
+let allFiles = [];
+let curFile  = null;
+let soundOn  = true;
 
-        // Task completion tracking
-        document.querySelectorAll('.task-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.classList.add('opacity-50', 'pointer-events-none');
-                this.querySelector('.fa-check-circle').classList.remove('opacity-0');
-                
-                if ([...document.querySelectorAll('.task-btn')].every(b => b.classList.contains('opacity-50'))) {
-                    document.getElementById('download-btn').classList.remove('hidden');
-                }
-            });
-        });
+/* Particle Background */
+particlesJS('particles-js',{
+  particles:{
+    number:{value:60},
+    color:{value:'#00e5ff'},
+    shape:{type:'circle'},
+    opacity:{value:.25},
+    size:{value:3},
+    line_linked:{enable:true,distance:150,color:'#00e5ff',opacity:.15,width:1},
+    move:{enable:true,speed:1.5}
+  },
+  interactivity:{
+    detect_on:'canvas',
+    events:{onhover:{enable:true,mode:'repulse'}}
+  }
+});
 
-        // Download file
-        document.getElementById('download-btn').addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.href = `${baseUrl}/${currentFile.path}`;
-            link.download = currentFile.name;
-            link.click();
-            document.getElementById('download-modal').classList.add('hidden');
-        });
+/* Sound FX */
+function playSound(){
+  if(soundOn){
+    const audio = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU');
+    audio.volume = .05;
+    audio.play();
+  }
+}
 
-        // Close modal
-        document.getElementById('download-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'download-modal') {
-                e.target.classList.add('hidden');
-            }
-        });
+/* Sound Toggle */
+document.getElementById('sound-toggle').onclick = () => {
+  soundOn = !soundOn;
+  document.getElementById('sound-toggle').innerHTML = `<i class="fas fa-volume-${soundOn?'up':'mute'}"></i>`;
+};
 
-        // Initialize
-        fetchAllFiles();
-    </script>
+/* Fetch Files */
+async function fetchAll(){
+  const cats = ['metahan','bot-tele','code-web','bot-wa'];
+  for(const c of cats){
+    try{
+      const res = await fetch(`https://api.github.com/repos/${repo}/contents/files/${c}`);
+      const data = await res.json();
+      if(Array.isArray(data)){
+        data.forEach(f=>{f.category=c;f.path=`${c}/${f.name}`});
+        allFiles.push(...data);
+      }
+    }catch{}
+  }
+  render(allFiles);
+}
+function render(list){
+  const box = document.getElementById('file-list');
+  box.innerHTML = '';
+  const iconMap = {metahan:'fa-image','bot-tele':'fa-robot','code-web':'fa-code','bot-wa':'fa-mobile-alt'};
+  list.forEach(f=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <i class="fas ${iconMap[f.category]||'fa-file'} icon-3d"></i>
+      <h3>${f.name}</h3>
+      <p>${(f.size/1024).toFixed(1)} KB</p>
+      <button class="btn-3d" onclick="openGate('${f.path}','${f.name}')">
+        <i class="fas fa-download"></i> Download
+      </button>
+    `;
+    box.appendChild(div);
+  });
+}
+
+/* Filter & Search */
+function filterCat(cat){
+  document.querySelectorAll('.btn-filter').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  render(cat==='all'?allFiles:allFiles.filter(f=>f.category===cat));
+}
+document.getElementById('search').addEventListener('input',e=>{
+  const kw=e.target.value.toLowerCase();
+  render(allFiles.filter(f=>f.name.toLowerCase().includes(kw)));
+});
+
+/* Download Gate */
+function openGate(path,name){
+  curFile={path,name};
+  document.getElementById('gate').style.display='grid';
+  document.querySelectorAll('.task').forEach(t=>t.classList.remove('done'));
+  document.getElementById('dl-ready').style.display='none';
+}
+document.querySelectorAll('.task').forEach(el=>{
+  el.addEventListener('click',()=>{
+    el.classList.add('done');
+    playSound();
+    if([...document.querySelectorAll('.task')].every(t=>t.classList.contains('done'))){
+      document.getElementById('dl-ready').style.display='block';
+    }
+  });
+});
+document.getElementById('dl-ready').addEventListener('click',()=>{
+  const a=document.createElement('a');
+  a.href=`${base}/${curFile.path}`;
+  a.download=curFile.name;
+  a.click();
+  document.getElementById('gate').style.display='none';
+});
+document.getElementById('gate').addEventListener('click',e=>{
+  if(e.target===e.currentTarget)e.target.style.display='none';
+});
+
+fetchAll();
+</script>
 </body>
 </html>
