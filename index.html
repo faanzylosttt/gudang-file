@@ -268,11 +268,14 @@ async function fetchAll(){
     try{
       const res = await fetch(`https://api.github.com/repos/${repo}/contents/files/${c}`);
       const data = await res.json();
+      console.log(`Folder ${c}:`, data); // <-- tambahkan ini
       if(Array.isArray(data)){
         data.forEach(f=>{f.category=c;f.path=`${c}/${f.name}`});
         allFiles.push(...data);
       }
-    }catch{}
+    }catch(e){
+      console.error(`Error loading ${c}:`, e);
+    }
   }
   render(allFiles);
 }
