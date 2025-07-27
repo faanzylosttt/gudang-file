@@ -39,13 +39,16 @@
         }
 
         /* Animated Icons */
-        .icon-3d {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: float 3s ease-in-out infinite;
-        }
+        /* Putih */
+.icon-3d {
+    font-size: 3rem;
+    color: white;           /* warna teks putih */
+    background: none;       /* hapus gradien */
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    animation: float 3s ease-in-out infinite;
+}
+
 
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
