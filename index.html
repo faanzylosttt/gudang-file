@@ -3,313 +3,134 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vault • Super Keren</title>
+  <title>Faanzy Cloaud</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root{
-      --bg:#0c0c0c;
-      --neon:#00f5ff;
-      --pink:#ff006e;
-      --purple:#8b5cf6;
-      --radius:24px;
-    }
+    :root{--neon:#00f5ff;--pink:#ff006e;--bg:#050505}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg);color:#fff;min-height:100vh}
-    #particles-js{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2}
-    header{text-align:center;padding:60px 20px 40px}
-    header h1{font-size:48px;font-weight:900;background:linear-gradient(90deg,var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    
-    /* Filter Buttons */
-    .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:30px;padding:0 20px}
-    .btn-filter{
-      position:relative;
-      background:transparent;
-      border:2px solid rgba(255,255,255,.2);
-      color:#fff;
-      padding:12px 28px;
-      border-radius:999px;
-      font-weight:600;
-      cursor:pointer;
-      transition:all .4s;
-      overflow:hidden;
-    }
-    .btn-filter i{margin-right:8px}
-    .btn-filter::before{
-      content:'';
-      position:absolute;
-      top:0;left:-100%;
-      width:100%;height:100%;
-      background:linear-gradient(90deg,transparent,var(--neon));
-      transition:left .4s;
-      z-index:-1;
-    }
-    .btn-filter.active,
-    .btn-filter:hover{color:#000;border-color:var(--neon)}
-    .btn-filter.active::before,
-    .btn-filter:hover::before{left:0}
+    body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:#fff;min-height:100vh}
+    header{text-align:center;padding:50px 20px}
+    header .cloud-icon{font-size:70px;background:linear-gradient(135deg,var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:float 3s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    header h1{font-size:42px;font-weight:900;background:linear-gradient(90deg,var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-top:10px}
 
-    /* Search */
-    #search{
-      display:block;
-      width:100%;
-      max-width:340px;
-      margin:0 auto 40px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:var(--radius);
-      padding:14px 22px;
-      color:#fff;
-      outline:none;
-      transition:border-color .3s;
-    }
-    #search:focus{border-color:var(--neon)}
+    /* Cloud Grid */
+    #wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:30px;padding:40px 20px;max-width:1500px;margin:auto}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:30px 25px;position:relative;transition:.4s}
+    .card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 0 25px var(--neon)}
+    .icon-3d{font-size:60px;background:linear-gradient(135deg,var(--neon),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 15px var(--neon))}
+    .file-name{font-size:18px;font-weight:600;margin:15px 0 5px;word-break:break-all}
+    .file-size{font-size:13px;color:#aaa;margin-bottom:15px}
+    .btn-down{background:linear-gradient(45deg,var(--neon),var(--pink));border:none;color:#000;font-weight:700;padding:10px 24px;border-radius:999px;cursor:pointer}
+    .btn-down:hover{transform:scale(1.05);box-shadow:0 0 20px var(--neon)}
 
-    /* Cards Grid */
-    #file-list{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-      gap:32px;
-      padding:0 20px 60px;
-      max-width:1400px;
-      margin:auto;
-    }
-    .card{
-      position:relative;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:var(--radius);
-      padding:40px 30px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-      transition:transform .4s,box-shadow .4s;
-      transform-style:preserve-3d;
-      overflow:hidden;
-    }
-    .card:hover{
-      transform:rotateY(8deg) rotateX(8deg) translateY(-10px);
-      box-shadow:0 0 30px var(--neon);
-    }
-    .card .icon-3d{
-      font-size:70px;
-      margin-bottom:20px;
-      color:var(--neon);
-      filter:drop-shadow(0 0 15px var(--neon));
-      animation:float 2s ease-in-out infinite;
-    }
-    @keyframes float{0%{transform:translateY(0)scale(1)}50%{transform:translateY(-8px)scale(1.1)}100%{transform:translateY(0)scale(1)}}
-    .card h3{font-size:20px;font-weight:700;margin-bottom:6px}
-    .card p{font-size:15px;color:#bbb;margin-bottom:24px}
+    /* Titik-tiga menu */
+    .menu{position:absolute;top:15px;right:15px;cursor:pointer;font-size:20px;color:#ccc}
+    .menu:hover{color:var(--neon)}
+    .dropdown{display:none;position:absolute;top:40px;right:15px;background:rgba(20,20,20,.95);border:1px solid var(--neon);border-radius:8px;z-index:100}
+    .dropdown a{display:block;padding:8px 14px;color:#fff;font-size:13px;text-decoration:none}
+    .dropdown a:hover{background:var(--neon);color:#000}
 
-    /* 3D Button */
-    .btn-3d{
-      position:relative;
-      background:linear-gradient(135deg,var(--neon),var(--pink));
-      border:none;
-      color:#000;
-      font-weight:700;
-      font-size:16px;
-      padding:14px 36px;
-      border-radius:999px;
-      box-shadow:0 4px 15px rgba(0,245,255,.4);
-      cursor:pointer;
-      transition:all .3s;
-      overflow:hidden;
-    }
-    .btn-3d:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,245,255,.6)}
-    .btn-3d:active{transform:translateY(1px);box-shadow:0 4px 10px rgba(0,245,255,.3)}
-    .btn-3d::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.6);transform:translate(-50%,-50%);transition:width .6s,height .6s;opacity:0}
-    .btn-3d:active::after{width:300px;height:300px;opacity:0}
-
-    /* Gate Modal */
-    .gate{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.9);
-      display:none;
-      place-items:center;
-      z-index:10;
-    }
-    .gate-box{
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--neon);
-      border-radius:var(--radius);
-      padding:50px 40px;
-      width:100%;
-      max-width:380px;
-      text-align:center;
-      animation:slideIn .5s;
-    }
-    @keyframes slideIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
-    .gate-box h2{margin-bottom:12px;font-size:28px}
-    .gate-box p{margin-bottom:30px;font-size:16px;color:#aaa}
-    .task{
-      display:block;
-      border:1px solid rgba(255,255,255,.2);
-      border-radius:var(--radius);
-      padding:16px 20px;
-      margin-bottom:12px;
-      color:#fff;
-      text-decoration:none;
-      font-size:16px;
-      transition:all .3s;
-    }
-    .task:hover{border-color:var(--neon);color:var(--neon)}
-    .task.done{border-color:var(--neon);background:var(--neon);color:#000}
-    .gate-ready{display:none;margin-top:20px}
-
-    /* Sound Toggle */
-    #sound-toggle{
-      position:fixed;
-      top:20px;right:20px;
-      background:rgba(255,255,255,.1);
-      border:1px solid rgba(255,255,255,.2);
-      color:#fff;
-      padding:12px 16px;
-      border-radius:50%;
-      cursor:pointer;
-      z-index:100;
-      transition:background .3s;
-    }
-    #sound-toggle:hover{background:rgba(255,255,255,.2)}
-
-    @media(max-width:600px){
-      #file-list{grid-template-columns:1fr}
-      header h1{font-size:36px}
-    }
+    /* Gate */
+    .gate{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:100}
+    .gate-box{background:rgba(255,255,255,.05);border:1px solid var(--neon);border-radius:20px;padding:40px;max-width:350px;text-align:center}
+    .task{display:block;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:12px 18px;margin:8px 0;color:#fff;text-decoration:none}
+    .task.done{background:linear-gradient(45deg,var(--neon),var(--purple));color:#000;border-color:transparent}
+    .gate-ready{display:none;margin-top:15px}
+    @media(max-width:600px){#wall{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
-<!-- Background Particle -->
-<div id="particles-js"></div>
-
-<!-- Sound Toggle -->
-<button id="sound-toggle" title="Toggle SFX"><i class="fas fa-volume-up"></i></button>
-
 <header>
-  <h1>VAULT<span>•</span>SUPER</h1>
+  <i class="fas fa-cloud cloud-icon"></i>
+  <h1>Faanzy Cloaud</h1>
 </header>
 
-<!-- Filter Buttons with Icons -->
-<nav class="filters">
-  <button onclick="filterCat('all')" class="btn-filter active"><i class="fas fa-th-large"></i> All</button>
-  <button onclick="filterCat('metahan')" class="btn-filter"><i class="fas fa-image"></i> Meta PNG</button>
-  <button onclick="filterCat('bot-tele')" class="btn-filter"><i class="fab fa-telegram-plane"></i> Bot Tele</button>
-  <button onclick="filterCat('code-web')" class="btn-filter"><i class="fas fa-code"></i> Code Web</button>
-  <button onclick="filterCat('bot-wa')" class="btn-filter"><i class="fab fa-whatsapp"></i> Bot WA</button>
-</nav>
+<div id="wall"></div>
 
-<!-- Search -->
-<input id="search" type="text" placeholder="Search file…">
-
-<!-- Cards Grid -->
-<section id="file-list"></section>
-
-<!-- Gate Modal -->
+<!-- Gate Unlock -->
 <div class="gate" id="gate">
   <div class="gate-box">
-    <h2><i class="fas fa-unlock-alt"></i> Unlock File</h2>
-    <p>Complete the actions below to download:</p>
-    <a href="https://www.instagram.com/faa_nzy?igsh=OGR3OGZoMzl1YTF5"  target="_blank" class="task ig"><i class="fab fa-instagram"></i> Follow Instagram</a>
-    <a href="https://youtube.com/@faanzygx?si=bvY-pKz70qMYzj9M"   target="_blank" class="task yt"><i class="fab fa-youtube"></i> Subscribe YouTube</a>
-    <a href="https://whatsapp.com/channel/0029Vb3E62T90x311PjuYI3Y"          target="_blank" class="task wa"><i class="fab fa-whatsapp"></i> Join WhatsApp</a>
-    <button id="dl-ready" class="btn-3d gate-ready"><i class="fas fa-download"></i> Download Now</button>
+    <h2><i class="fas fa-unlock-alt"></i> Unlock</h2>
+    <p>Complete actions:</p>
+    <a href="https://instagram.com/username"  target="_blank" class="task ig"><i class="fab fa-instagram"></i> Instagram</a>
+    <a href="https://youtube.com/@username"   target="_blank" class="task yt"><i class="fab fa-youtube"></i> YouTube</a>
+    <a href="https://wa.me/username"          target="_blank" class="task wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    <button id="dl-ready" class="btn-down gate-ready"><i class="fas fa-download"></i> Download</button>
   </div>
 </div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-/* CONFIG */
-const repo = 'faanzylosttt/gudang-file'; // <-- GANTI DENGAN USERNAME/REPO KAMU
-const base = `https://raw.githubusercontent.com/${repo}/main/files`;
-let allFiles = [];
-let curFile  = null;
-let soundOn  = true;
+const repo='faanzylosttt/gudang-file'; // <-- GANTI
+const base=`https://raw.githubusercontent.com/${repo}/main/files`;
 
-/* Particle Background */
-particlesJS('particles-js',{
-  particles:{
-    number:{value:60},
-    color:{value:'#00e5ff'},
-    shape:{type:'circle'},
-    opacity:{value:.25},
-    size:{value:3},
-    line_linked:{enable:true,distance:150,color:'#00e5ff',opacity:.15,width:1},
-    move:{enable:true,speed:1.5}
-  },
-  interactivity:{
-    detect_on:'canvas',
-    events:{onhover:{enable:true,mode:'repulse'}}
-  }
-});
+let allFiles=[];
+let curFile=null;
 
-/* Sound FX */
-function playSound(){
-  if(soundOn){
-    const audio = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU');
-    audio.volume = .05;
-    audio.play();
-  }
-}
-
-/* Sound Toggle */
-document.getElementById('sound-toggle').onclick = () => {
-  soundOn = !soundOn;
-  document.getElementById('sound-toggle').innerHTML = `<i class="fas fa-volume-${soundOn?'up':'mute'}"></i>`;
+/* Icon mapping */
+const iconMap={
+  metahan:'fa-image',
+  'bot-tele':'fa-robot',
+  'code-web':'fa-code',
+  'bot-wa':'fa-mobile-alt'
 };
 
-/* Fetch Files */
+/* Fetch semua file */
 async function fetchAll(){
-  const cats = ['metahan','bot-tele','code-web','bot-wa'];
-  for(const c of cats){
+  const cats=['metahan','bot-tele','code-web','bot-wa'];
+  for(const cat of cats){
     try{
-      const res = await fetch(`https://api.github.com/repos/${repo}/contents/files/${c}`);
-      const data = await res.json();
-      console.log(`Folder ${c}:`, data); // <-- tambahkan ini
+      const res=await fetch(`https://api.github.com/repos/${repo}/contents/files/${cat}`);
+      const data=await res.json();
       if(Array.isArray(data)){
-        data.forEach(f=>{f.category=c;f.path=`${c}/${f.name}`});
+        data.forEach(f=>{f.category=cat;f.path=`${cat}/${f.name}`});
         allFiles.push(...data);
       }
-    }catch(e){
-      console.error(`Error loading ${c}:`, e);
-    }
+    }catch{}
   }
   render(allFiles);
 }
+
+/* Render kartu */
 function render(list){
-  const box = document.getElementById('file-list');
-  box.innerHTML = '';
-  const iconMap = {metahan:'fa-image','bot-tele':'fa-robot','code-web':'fa-code','bot-wa':'fa-mobile-alt'};
+  const wall=document.getElementById('wall');
+  wall.innerHTML='';
   list.forEach(f=>{
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `
+    const ext=f.name.split('.').pop().toLowerCase();
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`
       <i class="fas ${iconMap[f.category]||'fa-file'} icon-3d"></i>
-      <h3>${f.name}</h3>
-      <p>${(f.size/1024).toFixed(1)} KB</p>
-      <button class="btn-3d" onclick="openGate('${f.path}','${f.name}')">
-        <i class="fas fa-download"></i> Download
-      </button>
+      <div class="file-name">${f.name}</div>
+      <div class="file-size">${(f.size/1024).toFixed(1)} KB</div>
+      <button class="btn-down" onclick="openGate('${f.path}','${f.name}')">Download</button>
+      <div class="menu" onclick="toggleMenu(this)">⋮</div>
+      <div class="dropdown">
+        <a href="#" onclick="excludeFile('${f.name}')">Exclude file</a>
+        <a href="#" onclick="showInfo('${f.name}')">Details</a>
+      </div>
     `;
-    box.appendChild(div);
+    wall.appendChild(div);
   });
 }
 
-/* Filter & Search */
-function filterCat(cat){
-  document.querySelectorAll('.btn-filter').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  render(cat==='all'?allFiles:allFiles.filter(f=>f.category===cat));
+/* Toggle titik-tiga */
+function toggleMenu(btn){
+  const dd=btn.nextElementSibling;
+  document.querySelectorAll('.dropdown').forEach(d=>{if(d!==dd)d.style.display='none'});
+  dd.style.display=dd.style.display==='block'?'none':'block';
 }
-document.getElementById('search').addEventListener('input',e=>{
-  const kw=e.target.value.toLowerCase();
-  render(allFiles.filter(f=>f.name.toLowerCase().includes(kw)));
-});
+document.addEventListener('click',()=>document.querySelectorAll('.dropdown').forEach(d=>d.style.display='none'));
 
-/* Download Gate */
+/* Menu actions */
+function excludeFile(name){
+  allFiles=allFiles.filter(f=>f.name!==name);
+  render(allFiles);
+}
+function showInfo(name){alert(`File: ${name}\nPath: ${curFile?.path || ''}`);}
+
+/* Unlock gate */
 function openGate(path,name){
   curFile={path,name};
   document.getElementById('gate').style.display='grid';
@@ -319,7 +140,6 @@ function openGate(path,name){
 document.querySelectorAll('.task').forEach(el=>{
   el.addEventListener('click',()=>{
     el.classList.add('done');
-    playSound();
     if([...document.querySelectorAll('.task')].every(t=>t.classList.contains('done'))){
       document.getElementById('dl-ready').style.display='block';
     }
@@ -331,9 +151,6 @@ document.getElementById('dl-ready').addEventListener('click',()=>{
   a.download=curFile.name;
   a.click();
   document.getElementById('gate').style.display='none';
-});
-document.getElementById('gate').addEventListener('click',e=>{
-  if(e.target===e.currentTarget)e.target.style.display='none';
 });
 
 fetchAll();
