@@ -1,159 +1,251 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Faanzy Cloaud</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    :root{--neon:#00f5ff;--pink:#ff006e;--bg:#050505}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:#fff;min-height:100vh}
-    header{text-align:center;padding:50px 20px}
-    header .cloud-icon{font-size:70px;background:linear-gradient(135deg,var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:float 3s ease-in-out infinite}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-    header h1{font-size:42px;font-weight:900;background:linear-gradient(90deg,var(--neon),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-top:10px}
-
-    /* Cloud Grid */
-    #wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:30px;padding:40px 20px;max-width:1500px;margin:auto}
-    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:30px 25px;position:relative;transition:.4s}
-    .card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 0 25px var(--neon)}
-    .icon-3d{font-size:60px;background:linear-gradient(135deg,var(--neon),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 15px var(--neon))}
-    .file-name{font-size:18px;font-weight:600;margin:15px 0 5px;word-break:break-all}
-    .file-size{font-size:13px;color:#aaa;margin-bottom:15px}
-    .btn-down{background:linear-gradient(45deg,var(--neon),var(--pink));border:none;color:#000;font-weight:700;padding:10px 24px;border-radius:999px;cursor:pointer}
-    .btn-down:hover{transform:scale(1.05);box-shadow:0 0 20px var(--neon)}
-
-    /* Titik-tiga menu */
-    .menu{position:absolute;top:15px;right:15px;cursor:pointer;font-size:20px;color:#ccc}
-    .menu:hover{color:var(--neon)}
-    .dropdown{display:none;position:absolute;top:40px;right:15px;background:rgba(20,20,20,.95);border:1px solid var(--neon);border-radius:8px;z-index:100}
-    .dropdown a{display:block;padding:8px 14px;color:#fff;font-size:13px;text-decoration:none}
-    .dropdown a:hover{background:var(--neon);color:#000}
-
-    /* Gate */
-    .gate{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:100}
-    .gate-box{background:rgba(255,255,255,.05);border:1px solid var(--neon);border-radius:20px;padding:40px;max-width:350px;text-align:center}
-    .task{display:block;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:12px 18px;margin:8px 0;color:#fff;text-decoration:none}
-    .task.done{background:linear-gradient(45deg,var(--neon),var(--purple));color:#000;border-color:transparent}
-    .gate-ready{display:none;margin-top:15px}
-    @media(max-width:600px){#wall{grid-template-columns:1fr}}
-  </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gudang File Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html{scroll-behavior:smooth}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden}
+        #particles-js{position:absolute;width:100%;height:100%;top:0;left:0;z-index:-1}
+        .glass{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+        .icon-3d{font-size:3rem;background:linear-gradient(45deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 8px #667eea)}
+        @keyframes float{0%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-10px) rotate(5deg) scale(1.1)}100%{transform:translateY(0) rotate(0) scale(1)}}
+        .file-card{transition:all .4s cubic-bezier(.175,.885,.32,1.275);transform:perspective(1000px) rotateX(0)}
+        .file-card:hover{transform:perspective(1000px) rotateX(7deg) translateY(-12px);box-shadow:0 20px 40px rgba(102,126,234,.4)}
+        .loading{width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s linear infinite;margin:auto}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:50;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.4s ease}
+        .modal-bg.show{opacity:1;visibility:visible}
+        .modal-box{transform:scale(.85);transition:.4s ease}
+        .modal-bg.show .modal-box{transform:scale(1)}
+        .menu-dots{transition:transform .3s}.menu-dots:hover{transform:scale(1.1)}
+        .dropdown{opacity:0;transform:translateY(-5px) scale(.95);transition:all .3s;pointer-events:none}
+        .group:hover .dropdown{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+    </style>
 </head>
 <body>
+    <div id="particles-js"></div>
 
-<header>
-  <i class="fas fa-cloud cloud-icon"></i>
-  <h1>Faanzy Cloaud</h1>
-</header>
+    <!-- Floating Menu -->
+    <div class="fixed top-5 right-5 z-50 group">
+        <button class="menu-dots glass w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+            <i class="fas fa-ellipsis-v text-xl"></i>
+        </button>
+        <div class="dropdown absolute top-full mt-2 right-0 glass w-48 p-3 rounded-xl shadow-2xl">
+            <a href="https://linktr.ee/username" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
+                <i class="fas fa-briefcase text-purple-400"></i>
+                <span class="text-sm font-medium">Portfolio</span>
+            </a>
+            <a href="https://github.com/faanzylosttt" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
+                <i class="fab fa-github text-purple-400"></i>
+                <span class="text-sm font-medium">GitHub</span>
+            </a>
+        </div>
+    </div>
 
-<div id="wall"></div>
+    <div class="relative z-10 min-h-screen p-4 md:p-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl md:text-7xl font-black mb-4">
+                <i class="fas fa-cloud-download-alt text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400"></i>
+                <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Gudang File</span>
+                <span class="text-white"> Premium</span>
+            </h1>
+            <p class="text-gray-300 text-lg">Koleksi file premium dengan akses eksklusif</p>
+        </div>
 
-<!-- Gate Unlock -->
-<div class="gate" id="gate">
-  <div class="gate-box">
-    <h2><i class="fas fa-unlock-alt"></i> Unlock</h2>
-    <p>Complete actions:</p>
-    <a href="https://instagram.com/username"  target="_blank" class="task ig"><i class="fab fa-instagram"></i> Instagram</a>
-    <a href="https://youtube.com/@username"   target="_blank" class="task yt"><i class="fab fa-youtube"></i> YouTube</a>
-    <a href="https://wa.me/username"          target="_blank" class="task wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-    <button id="dl-ready" class="btn-down gate-ready"><i class="fas fa-download"></i> Download</button>
-  </div>
-</div>
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button onclick="filterCategory('all')" class="filter-btn glass px-6 py-3 rounded-full transition hover:scale-110 hover:bg-white/20">
+                <i class="fas fa-th-large mr-2"></i>Semua
+            </button>
+            <button onclick="filterCategory('metahan')" class="filter-btn glass px-6 py-3 rounded-full transition hover:scale-110 hover:bg-sky-400/20">
+                <i class="fas fa-image mr-2"></i>Meta PNG
+            </button>
+            <button onclick="filterCategory('bot-tele')" class="filter-btn glass px-6 py-3 rounded-full transition hover:scale-110 hover:bg-cyan-400/20">
+                <i class="fab fa-telegram mr-2"></i>Bot Tele
+            </button>
+            <button onclick="filterCategory('code-web')" class="filter-btn glass px-6 py-3 rounded-full transition hover:scale-110 hover:bg-amber-400/20">
+                <i class="fas fa-code mr-2"></i>Code Web
+            </button>
+            <button onclick="filterCategory('bot-wa')" class="filter-btn glass px-6 py-3 rounded-full transition hover:scale-110 hover:bg-green-400/20">
+                <i class="fab fa-whatsapp mr-2"></i>Bot WA
+            </button>
+        </div>
 
-<script>
-const repo='faanzylosttt/gudang-file'; // <-- GANTI
-const base=`https://raw.githubusercontent.com/${repo}/main/files`;
+        <!-- Search Bar -->
+        <div class="max-w-md mx-auto mb-8">
+            <div class="glass p-1 rounded-full">
+                <input id="search" type="text" placeholder="🔍 Cari file..." 
+                       class="w-full px-6 py-3 bg-transparent placeholder-gray-300 focus:outline-none">
+            </div>
+        </div>
 
-let allFiles=[];
-let curFile=null;
+        <!-- File Grid -->
+        <div id="file-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="col-span-full text-center">
+                <div class="loading"></div>
+                <p class="mt-2 text-gray-300">Memuat file...</p>
+            </div>
+        </div>
+    </div>
 
-/* Icon mapping */
-const iconMap={
-  metahan:'fa-image',
-  'bot-tele':'fa-robot',
-  'code-web':'fa-code',
-  'bot-wa':'fa-mobile-alt'
-};
+    <!-- Modal Unlock -->
+    <div id="download-modal" class="modal-bg">
+        <div class="modal-box glass max-w-md w-full p-8 rounded-xl">
+            <div class="text-center">
+                <i class="fas fa-lock text-4xl text-purple-400 mb-4"></i>
+                <h2 class="text-2xl font-bold mb-4">🔓 Unlock Premium Access</h2>
+                <p class="text-gray-300 mb-6">Selesaikan semua tugas untuk download:</p>
 
-/* Fetch semua file */
-async function fetchAll(){
-  const cats=['metahan','bot-tele','code-web','bot-wa'];
-  for(const cat of cats){
-    try{
-      const res=await fetch(`https://api.github.com/repos/${repo}/contents/files/${cat}`);
-      const data=await res.json();
-      if(Array.isArray(data)){
-        data.forEach(f=>{f.category=cat;f.path=`${cat}/${f.name}`});
-        allFiles.push(...data);
-      }
-    }catch{}
-  }
-  render(allFiles);
-}
+                <div id="tasks" class="space-y-4">
+                    <a href="https://www.instagram.com/faa_nzy?igsh=OGR3OGZoMzl1YTF5" target="_blank" 
+                       class="task-btn glass p-4 rounded-lg flex items-center justify-between hover:bg-pink-600/20 transition">
+                        <span><i class="fab fa-instagram mr-2"></i>Follow Instagram</span>
+                        <i class="fas fa-check-circle opacity-0"></i>
+                    </a>
+                    <a href="https://youtube.com/@faanzygx?si=bvY-pKz70qMYzj9M" target="_blank"
+                       class="task-btn glass p-4 rounded-lg flex items-center justify-between hover:bg-red-600/20 transition">
+                        <span><i class="fab fa-youtube mr-2"></i>Subscribe YouTube</span>
+                        <i class="fas fa-check-circle opacity-0"></i>
+                    </a>
+                    <a href="https://whatsapp.com/channel/0029Vb3E62T90x311PjuYI3Y" target="_blank"
+                       class="task-btn glass p-4 rounded-lg flex items-center justify-between hover:bg-green-600/20 transition">
+                        <span><i class="fab fa-whatsapp mr-2"></i>Join WhatsApp</span>
+                        <i class="fas fa-check-circle opacity-0"></i>
+                    </a>
+                </div>
 
-/* Render kartu */
-function render(list){
-  const wall=document.getElementById('wall');
-  wall.innerHTML='';
-  list.forEach(f=>{
-    const ext=f.name.split('.').pop().toLowerCase();
-    const div=document.createElement('div');
-    div.className='card';
-    div.innerHTML=`
-      <i class="fas ${iconMap[f.category]||'fa-file'} icon-3d"></i>
-      <div class="file-name">${f.name}</div>
-      <div class="file-size">${(f.size/1024).toFixed(1)} KB</div>
-      <button class="btn-down" onclick="openGate('${f.path}','${f.name}')">Download</button>
-      <div class="menu" onclick="toggleMenu(this)">⋮</div>
-      <div class="dropdown">
-        <a href="#" onclick="excludeFile('${f.name}')">Exclude file</a>
-        <a href="#" onclick="showInfo('${f.name}')">Details</a>
-      </div>
-    `;
-    wall.appendChild(div);
-  });
-}
+                <button id="download-btn" class="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3 rounded-full font-bold hidden transition-transform hover:scale-105">
+                    <i class="fas fa-download mr-2"></i>Download Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
 
-/* Toggle titik-tiga */
-function toggleMenu(btn){
-  const dd=btn.nextElementSibling;
-  document.querySelectorAll('.dropdown').forEach(d=>{if(d!==dd)d.style.display='none'});
-  dd.style.display=dd.style.display==='block'?'none':'block';
-}
-document.addEventListener('click',()=>document.querySelectorAll('.dropdown').forEach(d=>d.style.display='none'));
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        const repo = 'faanzylosttt/gudang-file';
+        const baseUrl = `https://raw.githubusercontent.com/${repo}/main/files`;
+        let allFiles = [], currentFile = null;
 
-/* Menu actions */
-function excludeFile(name){
-  allFiles=allFiles.filter(f=>f.name!==name);
-  render(allFiles);
-}
-function showInfo(name){alert(`File: ${name}\nPath: ${curFile?.path || ''}`);}
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60 },
+                color: { value: '#667eea' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                line_linked: { enable: true, distance: 150, color: '#667eea', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
 
-/* Unlock gate */
-function openGate(path,name){
-  curFile={path,name};
-  document.getElementById('gate').style.display='grid';
-  document.querySelectorAll('.task').forEach(t=>t.classList.remove('done'));
-  document.getElementById('dl-ready').style.display='none';
-}
-document.querySelectorAll('.task').forEach(el=>{
-  el.addEventListener('click',()=>{
-    el.classList.add('done');
-    if([...document.querySelectorAll('.task')].every(t=>t.classList.contains('done'))){
-      document.getElementById('dl-ready').style.display='block';
-    }
-  });
-});
-document.getElementById('dl-ready').addEventListener('click',()=>{
-  const a=document.createElement('a');
-  a.href=`${base}/${curFile.path}`;
-  a.download=curFile.name;
-  a.click();
-  document.getElementById('gate').style.display='none';
-});
+        async function fetchAllFiles() {
+            const categories = {
+                'metahan': 'fas fa-image',
+                'bot-tele': 'fab fa-telegram',
+                'code-web': 'fas fa-code',
+                'bot-wa': 'fab fa-whatsapp'
+            };
+            for (const [category, icon] of Object.entries(categories)) {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${repo}/contents/files/${category}`);
+                    const data = await res.json();
+                    if (Array.isArray(data)) {
+                        data.forEach(f => {
+                            f.category = category;
+                            f.icon = icon;
+                            f.path = `${category}/${f.name}`;
+                        });
+                        allFiles = [...allFiles, ...data];
+                    }
+                } catch (e) { console.warn(`Gagal load ${category}`); }
+            }
+            renderFiles(allFiles);
+        }
 
-fetchAll();
-</script>
+        function renderFiles(files) {
+            const container = document.getElementById('file-list');
+            container.innerHTML = '';
+            files.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.className = 'file-card glass p-6';
+                div.style.animationDelay = `${index * 0.1}s`;
+                div.innerHTML = `
+                    <div class="text-center">
+                        <i class="${file.icon} icon-3d mb-4"></i>
+                        <h3 class="font-bold text-lg mb-2 truncate">${file.name}</h3>
+                        <p class="text-sm mb-4 text-gray-300">${(file.size / 1024).toFixed(1)} KB</p>
+                        <button onclick="openModal('${file.path}', '${file.name}')" 
+                                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-2 rounded-full transition-transform hover:scale-105">
+                            <i class="fas fa-download mr-2"></i>Download
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('ring-2', 'ring-white'));
+            event.target.classList.add('ring-2', 'ring-white');
+            const filtered = category === 'all' ? allFiles : allFiles.filter(f => f.category === category);
+            document.getElementById('file-list').style.opacity = 0;
+            setTimeout(() => { renderFiles(filtered); document.getElementById('file-list').style.opacity = 1; }, 300);
+        }
+
+        document.getElementById('search').addEventListener('input', e => {
+            renderFiles(allFiles.filter(f => f.name.toLowerCase().includes(e.target.value.toLowerCase())));
+        });
+
+        function openModal(path, name) {
+            currentFile = { path, name };
+            document.getElementById('download-modal').classList.add('show');
+            document.querySelectorAll('.task-btn').forEach(btn => {
+                btn.classList.remove('opacity-50', 'pointer-events-none');
+                btn.querySelector('.fa-check-circle').classList.add('opacity-0');
+            });
+            document.getElementById('download-btn').classList.add('hidden');
+        }
+
+        document.querySelectorAll('.task-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('opacity-50', 'pointer-events-none');
+                this.querySelector('.fa-check-circle').classList.remove('opacity-0');
+                if ([...document.querySelectorAll('.task-btn')].every(b => b.classList.contains('opacity-50'))) {
+                    document.getElementById('download-btn').classList.remove('hidden');
+                }
+            });
+        });
+
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const a = document.createElement('a');
+            a.href = `${baseUrl}/${currentFile.path}`;
+            a.download = currentFile.name;
+            a.click();
+            document.getElementById('download-modal').classList.remove('show');
+        });
+
+        document.getElementById('download-modal').addEventListener('click', e => {
+            if (e.target === document.getElementById('download-modal')) {
+                document.getElementById('download-modal').classList.remove('show');
+            }
+        });
+
+        fetchAllFiles();
+    </script>
 </body>
 </html>
