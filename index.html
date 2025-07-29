@@ -12,8 +12,6 @@
         body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden}
         #particles-js{position:absolute;width:100%;height:100%;top:0;left:0;z-index:-1}
         .glass{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
-        .icon-3d{font-size:3rem;background:linear-gradient(45deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 8px #667eea)}
-        @keyframes float{0%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-10px) rotate(5deg) scale(1.1)}100%{transform:translateY(0) rotate(0) scale(1)}}
         .file-card{transition:all .4s cubic-bezier(.175,.885,.32,1.275);transform:perspective(1000px) rotateX(0)}
         .file-card:hover{transform:perspective(1000px) rotateX(7deg) translateY(-12px);box-shadow:0 20px 40px rgba(102,126,234,.4)}
         .loading{width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:#fff;animation:spin 1s linear infinite;margin:auto}
@@ -36,13 +34,25 @@
             <i class="fas fa-ellipsis-v text-xl"></i>
         </button>
         <div class="dropdown absolute top-full mt-2 right-0 glass w-48 p-3 rounded-xl shadow-2xl">
-            <a href="https://linktr.ee/username" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
+            <a href="https://linktr.ee/faanzylost" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
                 <i class="fas fa-briefcase text-purple-400"></i>
                 <span class="text-sm font-medium">Portfolio</span>
             </a>
             <a href="https://github.com/faanzylosttt" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
                 <i class="fab fa-github text-purple-400"></i>
                 <span class="text-sm font-medium">GitHub</span>
+            </a>
+            <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
+                <i class="fab fa-whatsapp text-green-400"></i>
+                <span class="text-sm font-medium">WhatsApp</span>
+            </a>
+            <a href="https://instagram.com/faa_nzy" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
+                <i class="fab fa-instagram text-pink-400"></i>
+                <span class="text-sm font-medium">Instagram</span>
+            </a>
+            <a href="https://youtube.com/@faanzygx" target="_blank" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition">
+                <i class="fab fa-youtube text-red-500"></i>
+                <span class="text-sm font-medium">YouTube</span>
             </a>
         </div>
     </div>
@@ -177,26 +187,32 @@
             renderFiles(allFiles);
         }
 
-        function renderFiles(files) {
+        async function renderFiles(files) {
             const container = document.getElementById('file-list');
             container.innerHTML = '';
-            files.forEach((file, index) => {
+            for (const [index, file] of files.entries()) {
+                const thumb = `${baseUrl}/thumbs/${file.name.split('.')[0]}.jpg`;
+                const descFile = `${baseUrl}/desc/${file.name.split('.')[0]}.txt`;
+                let desc = '';
+                try {
+                    const d = await fetch(descFile);
+                    desc = await d.text();
+                } catch { desc = 'Deskripsi tidak tersedia'; }
+
                 const div = document.createElement('div');
-                div.className = 'file-card glass p-6';
+                div.className = 'file-card glass p-6 rounded-xl flex flex-col';
                 div.style.animationDelay = `${index * 0.1}s`;
                 div.innerHTML = `
-                    <div class="text-center">
-                        <i class="${file.icon} icon-3d mb-4"></i>
-                        <h3 class="font-bold text-lg mb-2 truncate">${file.name}</h3>
-                        <p class="text-sm mb-4 text-gray-300">${(file.size / 1024).toFixed(1)} KB</p>
-                        <button onclick="openModal('${file.path}', '${file.name}')" 
-                                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-2 rounded-full transition-transform hover:scale-105">
-                            <i class="fas fa-download mr-2"></i>Download
-                        </button>
-                    </div>
+                    <img src="${thumb}" alt="${file.name}" class="w-full h-32 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold text-lg mb-1">${file.name}</h3>
+                    <p class="text-sm text-gray-300 mb-2 flex-grow">${desc}</p>
+                    <button onclick="openModal('${file.path}', '${file.name}')" 
+                            class="w-full bg-gradient-to-r from-purple-600 to-pink-600 py-2 rounded-full transition-transform hover:scale-105">
+                        <i class="fas fa-download mr-2"></i>Download
+                    </button>
                 `;
                 container.appendChild(div);
-            });
+            }
         }
 
         function filterCategory(category) {
